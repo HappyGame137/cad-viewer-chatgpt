@@ -1,0 +1,17 @@
+import {build} from 'esbuild';
+import {mkdir,readFile,writeFile,copyFile} from 'node:fs/promises';
+import {createRequire} from 'node:module';
+import {dirname,join} from 'node:path';
+const require=createRequire(import.meta.url);
+await mkdir('dist/vendor',{recursive:true});
+const browser=await build({entryPoints:['web/viewer.mjs'],bundle:true,write:false,minify:true,format:'iife',target:'es2022',legalComments:'eof'});
+const template=await readFile('web/viewer.html','utf8');
+await writeFile('dist/viewer.html',template.replace('/*__CAD_BUNDLE__*/',()=>browser.outputFiles[0].text.replaceAll('</script','<\\/script')));
+const banner={js:"import { createRequire as __createRequire } from 'node:module'; const require = __createRequire(import.meta.url);"};
+await build({entryPoints:['server/index.mjs'],bundle:true,platform:'node',target:'node22',format:'esm',outfile:'dist/server.mjs',banner,legalComments:'eof'});
+await build({entryPoints:['server/convert-worker.mjs'],bundle:true,platform:'node',target:'node22',format:'esm',outfile:'dist/convert-worker.mjs',banner,external:['./vendor/occt-import-js.cjs'],legalComments:'eof'});
+const occtDir=dirname(require.resolve('occt-import-js'));
+await copyFile(join(occtDir,'occt-import-js.js'),'dist/vendor/occt-import-js.cjs');
+await copyFile(join(occtDir,'occt-import-js.wasm'),'dist/vendor/occt-import-js.wasm');
+for(const file of ['license.occt-import-js.txt','license.occt.txt'])await copyFile(join(occtDir,file),`dist/vendor/${file}`);
+console.log('Built self-contained MCP server, UI, STEP converter, and license notices.');

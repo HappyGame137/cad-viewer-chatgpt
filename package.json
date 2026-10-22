@@ -1,0 +1,30 @@
+{
+  "name": "cad-viewer-plugin",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "A local CAD viewer and mesh measurement plugin for ChatGPT desktop",
+  "license": "MIT",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "start": "node dist/server.mjs",
+    "preview": "node dist/server.mjs --preview",
+    "test": "node --test test/*.test.mjs",
+    "package": "node scripts/package.mjs"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/ext-apps": "^1.0.1",
+    "@modelcontextprotocol/sdk": "^1.25.0",
+    "@openai/mcp-extensions": "0.2.0",
+    "occt-import-js": "0.0.23",
+    "three": "0.180.0",
+    "zod": "^4.1.0"
+  },
+  "devDependencies": {
+    "esbuild": "^0.25.0",
+    "fflate": "0.8.2"
+  }
+}

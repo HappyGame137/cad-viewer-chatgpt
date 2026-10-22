@@ -1,0 +1,30 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "cad-viewer",
+  "version": "0.1.0",
+  "description": "Open local STEP and STL models, inspect assemblies, and measure distances in ChatGPT desktop.",
+  "license": "MIT",
+  "author": {"name": "HappyGame137"},
+  "homepage": "https://github.com/HappyGame137/cad-viewer-chatgpt",
+  "repository": "https://github.com/HappyGame137/cad-viewer-chatgpt",
+  "keywords": ["cad", "step", "stl", "3d", "measurement"],
+  "extensions": {
+    "com.openai": {
+      "requires_local_executor": true,
+      "interface": {
+        "displayName": "CAD Viewer · 三维查看与测量",
+        "shortDescription": "View STEP/STL models and measure dimensions locally.",
+        "longDescription": "Inspect local CAD assemblies with orbit, zoom, part isolation, exploded views, clipping, bounding dimensions, and point-to-point mesh measurement. STEP is converted locally to a display mesh. STL source units are selected explicitly.",
+        "category": "Productivity",
+        "developerName": "HappyGame137",
+        "websiteURL": "https://github.com/HappyGame137/cad-viewer-chatgpt",
+        "privacyPolicyURL": "https://github.com/HappyGame137/cad-viewer-chatgpt/blob/main/PRIVACY.md",
+        "capabilities": ["Read"],
+        "defaultPrompt": ["Open my STEP model and show its dimensions.", "打开三维模型并测量两个点之间的距离。"],
+        "composerIcon": "./assets/icon.svg",
+        "logo": "./assets/icon.svg",
+        "screenshots": ["./assets/screenshot-measurement.png"]
+      }
+    }
+  }
+}
