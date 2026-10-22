@@ -94,7 +94,7 @@ function selectAt(event){
   const hit=raycaster.intersectObjects(state.meshes.filter(m=>m.visible),false).find(h=>!$('section').checked||plane.distanceToPoint(h.point)>=-1e-6);
   if(!hit)return;
   state.meshes.forEach(m=>m.material.emissive.set(0x000000));hit.object.material.emissive.copy(hit.object.userData.baseColor).multiplyScalar(.2);
-  $('part-detail').textContent=hit.object.userData.part.name;
+  $('part-detail').textContent=hit.object.userData.part.name===state.model.name?`${state.model.parts.length} 个零件 · ${state.model.triangles.toLocaleString()} 个三角面`:hit.object.userData.part.name;
   if(state.measureMode){
     const local=hit.object.worldToLocal(hit.point.clone());
     if($('snap').checked){const pos=hit.object.geometry.attributes.position;const candidates=[hit.face.a,hit.face.b,hit.face.c].map(i=>new THREE.Vector3().fromBufferAttribute(pos,i));candidates.sort((a,b)=>a.distanceToSquared(local)-b.distanceToSquared(local));local.copy(candidates[0]);}
@@ -136,7 +136,7 @@ $('demo').onclick=()=>call('cad_demo',{}).catch(showError);
 async function start(){
   resize();
   if(window.parent!==window){
-    const app=new App({name:'cad-viewer-ui',version:'0.1.2'},{},{autoResize:true});state.app=app;
+    const app=new App({name:'cad-viewer-ui',version:'0.1.3'},{},{autoResize:true});state.app=app;
     const ext=new OpenAIExtensions(app);state.extensions=ext;
     app.ontoolresult=params=>{if(params._meta?.model)loadModel(params._meta.model);else if(params.isError)showError(params.content?.find(c=>c.type==='text')?.text || '无法读取模型');};
     app.ontoolinput=async({arguments:args})=>{

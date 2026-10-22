@@ -1,6 +1,6 @@
 # Privacy / 隐私说明
 
-CAD Viewer 0.1.2 reads only a CAD file explicitly selected in its UI or supplied to its read-only tool. The default path boundary is the user's home and launch working directory, configurable with `CAD_VIEWER_ALLOWED_ROOTS`.
+CAD Viewer 0.1.3 reads only a CAD file explicitly selected in its UI or supplied to its read-only tool. The default path boundary is the user's home and launch working directory, configurable with `CAD_VIEWER_ALLOWED_ROOTS`.
 
 STEP conversion runs in a local worker. STL parsing runs locally. No conversion cloud, telemetry, advertising, account service, or payment service is called by this plugin. Input CAD files are not modified or copied to persistent plugin storage. Models remain in process / page memory until replaced or the process / page is closed; normal host logs, conversation retention, operating-system memory management, and crash handling are outside this plugin's control.
 
