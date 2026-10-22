@@ -1,7 +1,7 @@
 export const messages={
   zh:{
     title:'CAD Viewer · 三维查看与测量',open:'打开文件',demo:'通用演示',view:'显示',parts:'全部零件',explode:'拆分',section:'剖切',fit:'适合窗口',measure:'两点测量',snap:'顶点吸附',clear:'清除测量',units:'显示单位',stlUnits:'STL 原始单位',
-    partAria:'显示零件',explodeAria:'装配拆分程度',sectionAria:'剖切位置',stageAria:'三维模型：拖动旋转，滚轮缩放；测量模式下点击两个点。',stageDescription:'三维模型视图，支持旋转、缩放、零件选择和两点尺寸测量。',detailsAria:'模型与测量说明',
+    partAria:'显示零件',explodeAria:'装配拆分程度',sectionAria:'剖切位置',stageAria:'三维模型：拖动旋转，滚轮缩放；测量模式下点击两个点。',stageDescription:'三维模型视图，支持旋转、缩放、零件选择和两点尺寸测量。',detailsAria:'模型与测量说明',sectionFilled:'剖切按显示网格补面，保留真实孔洞。',sectionOpen:'部分截线不闭合，相关零件未补面；请检查原始网格。',
     chooseFile:'选择 STEP / STL 文件',loading:'正在读取模型…',counts:'零件：{parts} · 三角面：{triangles}',assemblyBounds:'总装外形 X / Y / Z：{size} {unit}',partBounds:'零件外形 X / Y / Z：{size} {unit}',
     gestures:'拖动旋转 · 滚轮缩放 · 右键拖动平移',measureOff:'开启“两点测量”后，在模型上选择两个点。',measureFirst:'选择第一个测量点。',measureSecond:'点 A：{point} {unit}；选择第二个点。',measureResult:'距离 ≈ {distance} {unit}　|　ΔX {x}　ΔY {y}　ΔZ {z}',
     defaultNote:'STEP 按毫米转换；STL 无内置单位。测量基于显示网格，适合结构检查。',stepNote:'STEP 显示网格偏差参数 {tolerance} mm；网格测量为近似值，不能替代精确几何或加工检验。',stlNote:'STL 原始单位：{unit}（由用户指定）；测量基于文件三角网格。',demoNote:'通用装配演示；点到点测量基于显示网格。',
@@ -10,7 +10,7 @@ export const messages={
   },
   en:{
     title:'CAD Viewer · View & Measure',open:'Open file',demo:'Demo',view:'View',parts:'All parts',explode:'Explode',section:'Section',fit:'Fit',measure:'Measure',snap:'Snap vertices',clear:'Clear',units:'Units',stlUnits:'STL source unit',
-    partAria:'Show parts',explodeAria:'Assembly explode amount',sectionAria:'Section position',stageAria:'3D model: drag to rotate, scroll to zoom; click two points in measurement mode.',stageDescription:'3D model view with rotation, zoom, part selection and point-to-point measurement.',detailsAria:'Model and measurement details',
+    partAria:'Show parts',explodeAria:'Assembly explode amount',sectionAria:'Section position',stageAria:'3D model: drag to rotate, scroll to zoom; click two points in measurement mode.',stageDescription:'3D model view with rotation, zoom, part selection and point-to-point measurement.',detailsAria:'Model and measurement details',sectionFilled:'Cut faces follow the display mesh; actual holes are preserved.',sectionOpen:'Some cut contours are open; affected parts are not capped. Check the source mesh.',
     chooseFile:'Choose a STEP / STL file',loading:'Loading model…',counts:'Parts: {parts} · Triangles: {triangles}',assemblyBounds:'Assembly X / Y / Z: {size} {unit}',partBounds:'Part X / Y / Z: {size} {unit}',
     gestures:'Drag: rotate · Wheel: zoom · Right drag: pan',measureOff:'Turn on Measure and choose two points on the model.',measureFirst:'Choose the first measurement point.',measureSecond:'Point A: {point} {unit}; choose the second point.',measureResult:'Distance ≈ {distance} {unit} | ΔX {x}　ΔY {y}　ΔZ {z}',
     defaultNote:'STEP is converted to mm; STL has no built-in unit. Measurements use the display mesh.',stepNote:'STEP mesh tolerance: {tolerance} mm. Mesh measurements are approximate; use exact geometry or inspection for precision.',stlNote:'STL source unit: {unit} (user selected). Measurements use the file’s triangle mesh.',demoNote:'Generic assembly demo; point-to-point measurements use the display mesh.',

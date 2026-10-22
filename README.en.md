@@ -2,14 +2,14 @@
 
 English · [简体中文](README.md)
 
-View local STEP/STL models, inspect assemblies and measure approximate dimensions. Community beta 0.2.0, with English and Simplified Chinese interfaces.
+View local STEP/STL models, inspect assemblies and measure approximate dimensions. Community beta 0.3.1, with English and Simplified Chinese interfaces.
 
 ![20 mm measurement in the English interface](assets/screenshot-english.png)
 
 ## Features
 
 - Local STEP/STP conversion with part names and colors; STL loading with explicit source units.
-- Orbit, zoom, pan, part isolation, exploded views and open section clipping.
+- Orbit, zoom, pan, part isolation, exploded views and filled section faces that preserve actual holes.
 - Point-to-point distance, XYZ differences, nearest triangle vertex snapping and axis-aligned bounding dimensions.
 - Display units: mm, cm and in. STL source units: mm, cm, m and in.
 - Instant English / Chinese switching. View, clipping, selection and measurements survive language changes; original file and part names are retained.
@@ -49,7 +49,11 @@ Turn on Measure and click two points. The viewer reports distance and absolute X
 
 Turning Measure off clears its points and line. Clipped or hidden endpoints are hidden. The canvas fills the remaining window height below the compact controls; model details and hints appear in the footer.
 
-STEP is imported in millimetres with a default display mesh tolerance of 0.05 mm. This parameter is not a guaranteed measurement error. Measurements use the display triangle mesh; exact B-rep measurement, automatic hole diameter, radius, angle, minimum gap and wall thickness are not implemented. Bounding dimensions use the original axes, rather than an arbitrary minimum-volume orientation. Section clipping does not fill cut faces.
+STEP is imported in millimetres with a default display mesh tolerance of 0.05 mm. This parameter is not a guaranteed measurement error. Measurements use the display triangle mesh; exact B-rep measurement, automatic hole diameter, radius, angle, minimum gap and wall thickness are not implemented. Bounding dimensions use the original axes, rather than an arbitrary minimum-volume orientation.
+
+Section mode fills cut material with a warm tint while leaving real bores and cavities open. Section faces support point picking and approximate mesh measurement. The display caps never modify the source model. Open or branching cut contours are left uncapped with a message rather than inventing solid material. Try `examples/section-tube-20mm.stl`: a generic 20 mm block with a 10 mm through hole.
+
+![Filled material with the actual hole preserved](assets/screenshot-section.png)
 
 STL has no built-in unit: choose its source unit correctly before relying on dimensions. STL files generally cannot recover the original assembly tree. Limits: 30 MB per file, one million triangles, and 45 seconds for STEP conversion.
 

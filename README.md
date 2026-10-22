@@ -1,6 +1,6 @@
 # CAD Viewer for ChatGPT desktop
 
-在 ChatGPT 桌面应用中查看 STEP / STL、拆分装配并测量尺寸。早期测试版 0.2.0。
+在 ChatGPT 桌面应用中查看 STEP / STL、拆分装配并测量尺寸。早期测试版 0.3.1。
 
 [English documentation](README.en.md) · 简体中文
 
@@ -11,7 +11,7 @@ Local STEP/STL viewing and approximate mesh measurement for ChatGPT desktop. Req
 ## 功能
 
 - STEP / STP 装配与 STL：本地转换、保留 STEP 零件名与颜色。
-- 旋转、缩放、平移、单零件查看、装配拆分、开放式剖切。
+- 旋转、缩放、平移、单零件查看、装配拆分、实体截面补面与真实孔洞保留。
 - 两点测量、最近网格顶点吸附、XYZ 差值与轴向整体外形尺寸。
 - mm / cm / in 显示，STL 原始单位可指定为 mm / cm / m / in。
 - 中文 / English 即时切换，首次按浏览器语言选择，记住手动选择。切换时保留视角、剖切和测量，文件名与零件原名保持不变。
@@ -63,6 +63,10 @@ STEP 按毫米导入，默认显示网格偏差参数 0.05 mm。该参数不是�
 
 STL 没有内置单位。加载时选择正确的 STL 原始单位，避免 25.4 倍等比例错误。STL 装配通常不能自动还原为原始零件树。
 
+开启“剖切”后，切开的实体区域显示为暖色截面，真实孔洞和空腔保持为空。截面可参与两点测量，结果仍属于显示网格近似。补面仅用于显示，不会写入原模型。若截线未闭合或存在分叉，该零件不补面并显示提示，避免把未知空腔填成实体。`examples/section-tube-20mm.stl` 提供外形 20 mm、通孔 10 mm 的通用检查模型。
+
+![通用带孔模型的剖切补面](assets/screenshot-section.png)
+
 支持单个文件最大 30 MB、最多 100 万三角面、STEP 转换最长 45 秒。较大或复杂装配可能需要降低显示精度或拆分文件。
 
 ## 文件与隐私
@@ -80,7 +84,7 @@ pnpm test
 pnpm run package
 ```
 
-`server/` 实现本地 MCP 和转换；`web/` 实现查看与测量。`examples/` 仅有通用装配和已知 20 mm 立方体。用户工程和模型不属于发布包。
+`server/` 实现本地 MCP 和转换；`web/` 实现查看与测量。`examples/` 仅有通用装配、20 mm 立方体及带孔剖切示例。用户工程和模型不属于发布包。
 
 ## 发布状态
 

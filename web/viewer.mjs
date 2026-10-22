@@ -3,6 +3,7 @@ import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import { App } from '@modelcontextprotocol/ext-apps';
 import { OpenAIExtensions, OpenAIFileEntrypointInputSchema } from '@openai/mcp-extensions/app';
 import { resolveLanguage, translate, ViewerError, errorText } from './i18n.mjs';
+import { sectionGeometry } from './section.mjs';
 
 const root=document.getElementById('cad-viewer-app');
 const $=id=>root.querySelector(`#cad-${id}`);
@@ -27,7 +28,7 @@ const locale=()=>state.language==='zh'?'zh-CN':'en-US';
 const fmt=n=>(n/units[$('unit').value]).toLocaleString(locale(),{minimumFractionDigits:2,maximumFractionDigits:3});
 function showError(error){state.error=error;$('error').textContent=errorText(state.language,error);}
 function updatePartDetail(){const m=state.model;$('part-detail').textContent=!m?'':state.selectedPartName||t('counts',{parts:m.parts.length.toLocaleString(locale()),triangles:m.triangles.toLocaleString(locale())});}
-function updateNote(){const m=state.model;$('note').textContent=!m?t('defaultNote'):m.format==='STEP'?t('stepNote',{tolerance:m.tolerance.toLocaleString(locale())}):m.format==='STL'?t('stlNote',{unit:m.sourceUnits}):t('demoNote');}
+function updateNote(){const m=state.model;let note=!m?t('defaultNote'):m.format==='STEP'?t('stepNote',{tolerance:m.tolerance.toLocaleString(locale())}):m.format==='STL'?t('stlNote',{unit:m.sourceUnits}):t('demoNote');if($('section').checked)note+=' '+t(state.meshes.some(mesh=>mesh.visible&&mesh.userData.sectionIncomplete)?'sectionOpen':'sectionFilled');$('note').textContent=note;}
 function updateFilename(){$('file-name').textContent=state.loading?t('loading'):state.model?.name||t('chooseFile');}
 function applyLanguage(){
   document.documentElement.lang=state.language==='zh'?'zh-CN':'en';document.title=t('title');$('language').value=state.language;
@@ -79,8 +80,21 @@ function updateDims(){if(state.model){const all=$('part').value==='all',bounds=a
 function updateScene(){
   const explode=Number($('explode').value)/100;
   plane.constant=Number($('section-pos').value)/100*state.radius;
-  state.meshes.forEach((mesh,i)=>{mesh.position.copy(mesh.userData.shift).multiplyScalar(explode);mesh.visible=$('part').value==='all'||$('part').value===String(i);mesh.material.clippingPlanes=$('section').checked?[plane]:[];mesh.children[0].material.clippingPlanes=mesh.material.clippingPlanes;});
-  updateAnnotations();render();
+  state.meshes.forEach((mesh,i)=>{mesh.position.copy(mesh.userData.shift).multiplyScalar(explode);mesh.visible=$('part').value==='all'||$('part').value===String(i);mesh.material.clippingPlanes=$('section').checked?[plane]:[];mesh.children[0].material.clippingPlanes=mesh.material.clippingPlanes;updateSection(mesh);});
+  updateNote();updateAnnotations();render();
+}
+function updateSection(mesh){
+  const data=mesh.userData,active=$('section').checked&&mesh.visible,cutY=plane.constant-mesh.position.y;
+  if(!active){if(data.cap)data.cap.visible=false;return;}
+  if(data.cutY!==cutY){
+    if(data.cap){mesh.remove(data.cap);data.cap.traverse(o=>{o.geometry?.dispose();o.material?.dispose();});}
+    const {geometry,outline,incomplete}=sectionGeometry(mesh.geometry,cutY);data.cutY=cutY;data.sectionIncomplete=incomplete;
+    const color=data.baseColor.clone().lerp(new THREE.Color(0xf0bb72),.6);
+    data.cap=new THREE.Mesh(geometry,new THREE.MeshStandardMaterial({color,roughness:.85,side:THREE.DoubleSide,polygonOffset:true,polygonOffsetFactor:-1,polygonOffsetUnits:-1}));
+    data.cap.userData.sourceMesh=mesh;
+    data.cap.add(new THREE.LineSegments(outline,new THREE.LineBasicMaterial({color:color.clone().multiplyScalar(.65)})));mesh.add(data.cap);
+  }
+  data.cap.visible=Boolean(data.cap.geometry.index?.count);
 }
 function updateAnnotations(){
   dispose(annotations);
@@ -103,15 +117,17 @@ function updateMeasurementText(){
 function clearMeasurement(){state.points=[];dispose(annotations);updateMeasurementText();render();}
 function selectAt(event){
   const rect=renderer.domElement.getBoundingClientRect();ndc.set((event.clientX-rect.left)/rect.width*2-1,-(event.clientY-rect.top)/rect.height*2+1);raycaster.setFromCamera(ndc,camera);
-  const hit=raycaster.intersectObjects(state.meshes.filter(m=>m.visible),false).find(h=>!$('section').checked||plane.distanceToPoint(h.point)>=-1e-6);
+  const pickable=state.meshes.filter(m=>m.visible).flatMap(m=>m.userData.cap?.visible?[m,m.userData.cap]:[m]);
+  const hit=raycaster.intersectObjects(pickable,false).find(h=>h.object.userData.sourceMesh||!$('section').checked||plane.distanceToPoint(h.point)>=-1e-6);
   if(!hit)return;
-  state.meshes.forEach(m=>m.material.emissive.set(0x000000));hit.object.material.emissive.copy(hit.object.userData.baseColor).multiplyScalar(.2);
-  state.selectedPartName=hit.object.userData.part.name===state.model.name?null:hit.object.userData.part.name;updatePartDetail();
+  const selected=hit.object.userData.sourceMesh||hit.object;
+  state.meshes.forEach(m=>m.material.emissive.set(0x000000));selected.material.emissive.copy(selected.userData.baseColor).multiplyScalar(.2);
+  state.selectedPartName=selected.userData.part.name===state.model.name?null:selected.userData.part.name;updatePartDetail();
   if(state.measureMode){
     const local=hit.object.worldToLocal(hit.point.clone());
     if($('snap').checked){const pos=hit.object.geometry.attributes.position;const candidates=[hit.face.a,hit.face.b,hit.face.c].map(i=>new THREE.Vector3().fromBufferAttribute(pos,i));candidates.sort((a,b)=>a.distanceToSquared(local)-b.distanceToSquared(local));local.copy(candidates[0]);}
     if(state.points.length===2)state.points=[];
-    state.points.push({model:local.add(state.center),partId:state.meshes.indexOf(hit.object)});updateAnnotations();rememberMeasurement();
+    state.points.push({model:local.add(state.center),partId:state.meshes.indexOf(selected)});updateAnnotations();rememberMeasurement();
   }
   render();
 }
@@ -148,7 +164,7 @@ $('demo').onclick=()=>call('cad_demo',{}).catch(showError);
 async function start(){
   resize();
   if(window.parent!==window){
-    const app=new App({name:'cad-viewer-ui',version:'0.2.0'},{},{autoResize:true});state.app=app;
+    const app=new App({name:'cad-viewer-ui',version:'0.3.1'},{},{autoResize:true});state.app=app;
     const ext=new OpenAIExtensions(app);state.extensions=ext;
     app.ontoolresult=params=>{if(params._meta?.model)loadModel(params._meta.model);else if(params.isError)showError(params.content?.find(c=>c.type==='text')?.text || new ViewerError('readFailed'));};
     app.ontoolinput=async({arguments:args})=>{
