@@ -2,6 +2,7 @@ import { readFile, realpath, stat } from 'node:fs/promises';
 import { extname, basename, resolve, relative, isAbsolute, delimiter } from 'node:path';
 import { homedir } from 'node:os';
 import { Worker } from 'node:worker_threads';
+import { extractEdges } from './edges.mjs';
 
 export const MAX_FILE_BYTES = 30 * 1024 * 1024;
 export const UNITS = { mm: 1, cm: 10, m: 1000, in: 25.4 };
@@ -28,7 +29,8 @@ export function normalize(rawParts, { name, format, tolerance=0, sourceUnits='mm
     for (let i=0;i<positions.length;i++) {const k=i%3;min[k]=Math.min(min[k],positions[i]);max[k]=Math.max(max[k],positions[i]);partMin[k]=Math.min(partMin[k],positions[i]);partMax[k]=Math.max(partMax[k],positions[i]);}
     triangles += indices.length/3; vertices += positions.length/3;
     if (triangles>1_000_000 || vertices>2_000_000) throw new Error('Model exceeds the one million triangle preview limit. Use a coarser display tolerance.');
-    return { id:partId, name:decodeStepName(p.name) || `Part ${partId+1}`, color:p.color?.slice(0,3),
+    const edgeData=extractEdges(positions,indices,p.faces);if(edgeData.faceMap)edgeData.faceMap=encoded(edgeData.faceMap,Uint32Array);
+    return { id:partId, name:decodeStepName(p.name) || `Part ${partId+1}`, color:p.color?.slice(0,3),...edgeData,
       positionType:'float64',positions:encoded(positions,Float64Array), indices:encoded(indices,Uint32Array),
       bounds:{min:partMin,max:partMax,size:partMax.map((v,i)=>v-partMin[i])},
       triangles:indices.length/3, vertices:positions.length/3 };

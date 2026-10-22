@@ -276,10 +276,10 @@ function promiseAllObject(promisesObj) {
     return resolvedObj;
   });
 }
-function randomString(length = 10) {
+function randomString(length2 = 10) {
   const chars = "abcdefghijklmnopqrstuvwxyz";
   let str = "";
-  for (let i = 0; i < length; i++) {
+  for (let i = 0; i < length2; i++) {
     str += chars[Math.floor(Math.random() * chars.length)];
   }
   return str;
@@ -1048,11 +1048,11 @@ function node(obj, key, make) {
 function flattenError(error62, mapper = (issue2) => issue2.message) {
   const fieldErrors = {};
   const formErrors = [];
-  for (const sub of error62.issues) {
-    if (sub.path.length > 0) {
-      node(fieldErrors, sub.path[0], () => []).push(mapper(sub));
+  for (const sub3 of error62.issues) {
+    if (sub3.path.length > 0) {
+      node(fieldErrors, sub3.path[0], () => []).push(mapper(sub3));
     } else {
-      formErrors.push(mapper(sub));
+      formErrors.push(mapper(sub3));
     }
   }
   return { formErrors, fieldErrors };
@@ -1461,8 +1461,8 @@ __export(regexes_exports, {
   uuid7: () => uuid7,
   xid: () => xid
 });
-function nanoidOfLength(length) {
-  return new RegExp(`^[a-zA-Z0-9_-]{${length}}$`);
+function nanoidOfLength(length2) {
+  return new RegExp(`^[a-zA-Z0-9_-]{${length2}}$`);
 }
 function emoji() {
   return new RegExp(_emoji, "u");
@@ -1489,8 +1489,8 @@ function datetime(args) {
 function fixedBase64(bodyLength, padding) {
   return new RegExp(`^[A-Za-z0-9+/]{${bodyLength}}${padding}$`);
 }
-function fixedBase64url(length) {
-  return new RegExp(`^[A-Za-z0-9_-]{${length}}$`);
+function fixedBase64url(length2) {
+  return new RegExp(`^[A-Za-z0-9_-]{${length2}}$`);
 }
 var cuid, cuid2, ulid, xid, ksuid, nanoid, duration, extendedDuration, guid, uuid, uuid4, uuid6, uuid7, email, html5Email, rfc5322Email, unicodeEmail, idnEmail, browserEmail, _emoji, ipv4, ipv6, mac, cidrv4, cidrv6, base64, base64url, hostname, domain, httpProtocol, e164, creditCard, currencyCode, iban, dateSource, date, anyString, string, bigint, integer, number, boolean, _null, _undefined, lowercase, uppercase, hex, md5_hex, md5_base64, md5_base64url, sha1_hex, sha1_base64, sha1_base64url, sha256_hex, sha256_base64, sha256_base64url, sha384_hex, sha384_base64, sha384_base64url, sha512_hex, sha512_base64, sha512_base64url;
 var init_regexes = __esm({
@@ -1827,8 +1827,8 @@ var init_checks = __esm({
       inst._zod.check = (payload) => {
         const input2 = payload.value;
         const units = input2.length;
-        const length = typeof input2 === "string" && units > def.maximum ? codePointLength(input2) : units;
-        if (length <= def.maximum)
+        const length2 = typeof input2 === "string" && units > def.maximum ? codePointLength(input2) : units;
+        if (length2 <= def.maximum)
           return;
         const origin = getLengthableOrigin(input2);
         payload.issues.push({
@@ -1849,8 +1849,8 @@ var init_checks = __esm({
       inst._zod.check = (payload) => {
         const input2 = payload.value;
         const units = input2.length;
-        const length = typeof input2 === "string" && units >= def.minimum && units < def.minimum * 2 ? codePointLength(input2) : units;
-        if (length >= def.minimum)
+        const length2 = typeof input2 === "string" && units >= def.minimum && units < def.minimum * 2 ? codePointLength(input2) : units;
+        if (length2 >= def.minimum)
           return;
         const origin = getLengthableOrigin(input2);
         payload.issues.push({
@@ -1871,11 +1871,11 @@ var init_checks = __esm({
       inst._zod.check = (payload) => {
         const input2 = payload.value;
         const units = input2.length;
-        const length = typeof input2 === "string" && units >= def.length && units <= def.length * 2 ? codePointLength(input2) : units;
-        if (length === def.length)
+        const length2 = typeof input2 === "string" && units >= def.length && units <= def.length * 2 ? codePointLength(input2) : units;
+        if (length2 === def.length)
           return;
         const origin = getLengthableOrigin(input2);
-        const tooBig = length > def.length;
+        const tooBig = length2 > def.length;
         payload.issues.push({
           origin,
           ...tooBig ? { code: "too_big", maximum: def.length } : { code: "too_small", minimum: def.length },
@@ -2217,11 +2217,11 @@ function isValidBase64URL(data) {
   return isValidBase64(padded);
 }
 function isLuhnAlgo(digits) {
-  let length = digits.length;
+  let length2 = digits.length;
   let bit = 1;
   let sum = 0;
-  while (length) {
-    const value = digits.charCodeAt(--length) - 48;
+  while (length2) {
+    const value = digits.charCodeAt(--length2) - 48;
     bit ^= 1;
     sum += bit ? [0, 2, 4, 6, 8, 1, 3, 5, 7, 9][value] : value;
   }
@@ -5215,8 +5215,8 @@ var init_be = __esm({
             const sizing = getSizing(issue2.origin);
             if (sizing) {
               const maxValue = Number(issue2.maximum);
-              const unit = getBelarusianPlural(maxValue, sizing.unit.one, sizing.unit.few, sizing.unit.many);
-              return `\u0417\u0430\u043D\u0430\u0434\u0442\u0430 \u0432\u044F\u043B\u0456\u043A\u0456: \u0447\u0430\u043A\u0430\u043B\u0430\u0441\u044F, \u0448\u0442\u043E ${issue2.origin ?? "\u0437\u043D\u0430\u0447\u044D\u043D\u043D\u0435"} \u043F\u0430\u0432\u0456\u043D\u043D\u0430 ${sizing.verb} ${adj}${issue2.maximum.toString()} ${unit}`;
+              const unit2 = getBelarusianPlural(maxValue, sizing.unit.one, sizing.unit.few, sizing.unit.many);
+              return `\u0417\u0430\u043D\u0430\u0434\u0442\u0430 \u0432\u044F\u043B\u0456\u043A\u0456: \u0447\u0430\u043A\u0430\u043B\u0430\u0441\u044F, \u0448\u0442\u043E ${issue2.origin ?? "\u0437\u043D\u0430\u0447\u044D\u043D\u043D\u0435"} \u043F\u0430\u0432\u0456\u043D\u043D\u0430 ${sizing.verb} ${adj}${issue2.maximum.toString()} ${unit2}`;
             }
             return `\u0417\u0430\u043D\u0430\u0434\u0442\u0430 \u0432\u044F\u043B\u0456\u043A\u0456: \u0447\u0430\u043A\u0430\u043B\u0430\u0441\u044F, \u0448\u0442\u043E ${issue2.origin ?? "\u0437\u043D\u0430\u0447\u044D\u043D\u043D\u0435"} \u043F\u0430\u0432\u0456\u043D\u043D\u0430 \u0431\u044B\u0446\u044C ${adj}${issue2.maximum.toString()}`;
           }
@@ -5225,8 +5225,8 @@ var init_be = __esm({
             const sizing = getSizing(issue2.origin);
             if (sizing) {
               const minValue = Number(issue2.minimum);
-              const unit = getBelarusianPlural(minValue, sizing.unit.one, sizing.unit.few, sizing.unit.many);
-              return `\u0417\u0430\u043D\u0430\u0434\u0442\u0430 \u043C\u0430\u043B\u044B: \u0447\u0430\u043A\u0430\u043B\u0430\u0441\u044F, \u0448\u0442\u043E ${issue2.origin} \u043F\u0430\u0432\u0456\u043D\u043D\u0430 ${sizing.verb} ${adj}${issue2.minimum.toString()} ${unit}`;
+              const unit2 = getBelarusianPlural(minValue, sizing.unit.one, sizing.unit.few, sizing.unit.many);
+              return `\u0417\u0430\u043D\u0430\u0434\u0442\u0430 \u043C\u0430\u043B\u044B: \u0447\u0430\u043A\u0430\u043B\u0430\u0441\u044F, \u0448\u0442\u043E ${issue2.origin} \u043F\u0430\u0432\u0456\u043D\u043D\u0430 ${sizing.verb} ${adj}${issue2.minimum.toString()} ${unit2}`;
             }
             return `\u0417\u0430\u043D\u0430\u0434\u0442\u0430 \u043C\u0430\u043B\u044B: \u0447\u0430\u043A\u0430\u043B\u0430\u0441\u044F, \u0448\u0442\u043E ${issue2.origin} \u043F\u0430\u0432\u0456\u043D\u043D\u0430 \u0431\u044B\u0446\u044C ${adj}${issue2.minimum.toString()}`;
           }
@@ -7979,8 +7979,8 @@ var init_hy = __esm({
             const sizing = getSizing(issue2.origin);
             if (sizing) {
               const maxValue = Number(issue2.maximum);
-              const unit = getArmenianPlural(maxValue, sizing.unit.one, sizing.unit.many);
-              return `\u0549\u0561\u0583\u0561\u0566\u0561\u0576\u0581 \u0574\u0565\u056E \u0561\u0580\u056A\u0565\u0584\u2024 \u057D\u057A\u0561\u057D\u057E\u0578\u0582\u0574 \u0567, \u0578\u0580 ${withDefiniteArticle(issue2.origin ?? "\u0561\u0580\u056A\u0565\u0584")} \u056F\u0578\u0582\u0576\u0565\u0576\u0561 ${adj}${issue2.maximum.toString()} ${unit}`;
+              const unit2 = getArmenianPlural(maxValue, sizing.unit.one, sizing.unit.many);
+              return `\u0549\u0561\u0583\u0561\u0566\u0561\u0576\u0581 \u0574\u0565\u056E \u0561\u0580\u056A\u0565\u0584\u2024 \u057D\u057A\u0561\u057D\u057E\u0578\u0582\u0574 \u0567, \u0578\u0580 ${withDefiniteArticle(issue2.origin ?? "\u0561\u0580\u056A\u0565\u0584")} \u056F\u0578\u0582\u0576\u0565\u0576\u0561 ${adj}${issue2.maximum.toString()} ${unit2}`;
             }
             return `\u0549\u0561\u0583\u0561\u0566\u0561\u0576\u0581 \u0574\u0565\u056E \u0561\u0580\u056A\u0565\u0584\u2024 \u057D\u057A\u0561\u057D\u057E\u0578\u0582\u0574 \u0567, \u0578\u0580 ${withDefiniteArticle(issue2.origin ?? "\u0561\u0580\u056A\u0565\u0584")} \u056C\u056B\u0576\u056B ${adj}${issue2.maximum.toString()}`;
           }
@@ -7989,8 +7989,8 @@ var init_hy = __esm({
             const sizing = getSizing(issue2.origin);
             if (sizing) {
               const minValue = Number(issue2.minimum);
-              const unit = getArmenianPlural(minValue, sizing.unit.one, sizing.unit.many);
-              return `\u0549\u0561\u0583\u0561\u0566\u0561\u0576\u0581 \u0583\u0578\u0584\u0580 \u0561\u0580\u056A\u0565\u0584\u2024 \u057D\u057A\u0561\u057D\u057E\u0578\u0582\u0574 \u0567, \u0578\u0580 ${withDefiniteArticle(issue2.origin)} \u056F\u0578\u0582\u0576\u0565\u0576\u0561 ${adj}${issue2.minimum.toString()} ${unit}`;
+              const unit2 = getArmenianPlural(minValue, sizing.unit.one, sizing.unit.many);
+              return `\u0549\u0561\u0583\u0561\u0566\u0561\u0576\u0581 \u0583\u0578\u0584\u0580 \u0561\u0580\u056A\u0565\u0584\u2024 \u057D\u057A\u0561\u057D\u057E\u0578\u0582\u0574 \u0567, \u0578\u0580 ${withDefiniteArticle(issue2.origin)} \u056F\u0578\u0582\u0576\u0565\u0576\u0561 ${adj}${issue2.minimum.toString()} ${unit2}`;
             }
             return `\u0549\u0561\u0583\u0561\u0566\u0561\u0576\u0581 \u0583\u0578\u0584\u0580 \u0561\u0580\u056A\u0565\u0584\u2024 \u057D\u057A\u0561\u057D\u057E\u0578\u0582\u0574 \u0567, \u0578\u0580 ${withDefiniteArticle(issue2.origin)} \u056C\u056B\u0576\u056B ${adj}${issue2.minimum.toString()}`;
           }
@@ -8957,18 +8957,18 @@ var init_ko = __esm({
             const adj = issue2.inclusive ? "\uC774\uD558" : "\uBBF8\uB9CC";
             const suffix = adj === "\uBBF8\uB9CC" ? "\uC774\uC5B4\uC57C \uD569\uB2C8\uB2E4" : "\uC5EC\uC57C \uD569\uB2C8\uB2E4";
             const sizing = getSizing(issue2.origin);
-            const unit = sizing?.unit ?? "\uC694\uC18C";
+            const unit2 = sizing?.unit ?? "\uC694\uC18C";
             if (sizing)
-              return `${issue2.origin ?? "\uAC12"}\uC774 \uB108\uBB34 \uD07D\uB2C8\uB2E4: ${issue2.maximum.toString()}${unit} ${adj}${suffix}`;
+              return `${issue2.origin ?? "\uAC12"}\uC774 \uB108\uBB34 \uD07D\uB2C8\uB2E4: ${issue2.maximum.toString()}${unit2} ${adj}${suffix}`;
             return `${issue2.origin ?? "\uAC12"}\uC774 \uB108\uBB34 \uD07D\uB2C8\uB2E4: ${issue2.maximum.toString()} ${adj}${suffix}`;
           }
           case "too_small": {
             const adj = issue2.inclusive ? "\uC774\uC0C1" : "\uCD08\uACFC";
             const suffix = adj === "\uC774\uC0C1" ? "\uC774\uC5B4\uC57C \uD569\uB2C8\uB2E4" : "\uC5EC\uC57C \uD569\uB2C8\uB2E4";
             const sizing = getSizing(issue2.origin);
-            const unit = sizing?.unit ?? "\uC694\uC18C";
+            const unit2 = sizing?.unit ?? "\uC694\uC18C";
             if (sizing) {
-              return `${issue2.origin ?? "\uAC12"}\uC774 \uB108\uBB34 \uC791\uC2B5\uB2C8\uB2E4: ${issue2.minimum.toString()}${unit} ${adj}${suffix}`;
+              return `${issue2.origin ?? "\uAC12"}\uC774 \uB108\uBB34 \uC791\uC2B5\uB2C8\uB2E4: ${issue2.minimum.toString()}${unit2} ${adj}${suffix}`;
             }
             return `${issue2.origin ?? "\uAC12"}\uC774 \uB108\uBB34 \uC791\uC2B5\uB2C8\uB2E4: ${issue2.minimum.toString()} ${adj}${suffix}`;
           }
@@ -10865,8 +10865,8 @@ var init_ru = __esm({
             const sizing = getSizing(issue2.origin);
             if (sizing) {
               const maxValue = Number(issue2.maximum);
-              const unit = getRussianPlural(maxValue, sizing.unit.one, sizing.unit.few, sizing.unit.many);
-              return `\u0421\u043B\u0438\u0448\u043A\u043E\u043C \u0431\u043E\u043B\u044C\u0448\u043E\u0435 \u0437\u043D\u0430\u0447\u0435\u043D\u0438\u0435: \u043E\u0436\u0438\u0434\u0430\u043B\u043E\u0441\u044C, \u0447\u0442\u043E ${issue2.origin ?? "\u0437\u043D\u0430\u0447\u0435\u043D\u0438\u0435"} \u0431\u0443\u0434\u0435\u0442 \u0438\u043C\u0435\u0442\u044C ${adj}${issue2.maximum.toString()} ${unit}`;
+              const unit2 = getRussianPlural(maxValue, sizing.unit.one, sizing.unit.few, sizing.unit.many);
+              return `\u0421\u043B\u0438\u0448\u043A\u043E\u043C \u0431\u043E\u043B\u044C\u0448\u043E\u0435 \u0437\u043D\u0430\u0447\u0435\u043D\u0438\u0435: \u043E\u0436\u0438\u0434\u0430\u043B\u043E\u0441\u044C, \u0447\u0442\u043E ${issue2.origin ?? "\u0437\u043D\u0430\u0447\u0435\u043D\u0438\u0435"} \u0431\u0443\u0434\u0435\u0442 \u0438\u043C\u0435\u0442\u044C ${adj}${issue2.maximum.toString()} ${unit2}`;
             }
             return `\u0421\u043B\u0438\u0448\u043A\u043E\u043C \u0431\u043E\u043B\u044C\u0448\u043E\u0435 \u0437\u043D\u0430\u0447\u0435\u043D\u0438\u0435: \u043E\u0436\u0438\u0434\u0430\u043B\u043E\u0441\u044C, \u0447\u0442\u043E ${issue2.origin ?? "\u0437\u043D\u0430\u0447\u0435\u043D\u0438\u0435"} \u0431\u0443\u0434\u0435\u0442 ${adj}${issue2.maximum.toString()}`;
           }
@@ -10875,8 +10875,8 @@ var init_ru = __esm({
             const sizing = getSizing(issue2.origin);
             if (sizing) {
               const minValue = Number(issue2.minimum);
-              const unit = getRussianPlural(minValue, sizing.unit.one, sizing.unit.few, sizing.unit.many);
-              return `\u0421\u043B\u0438\u0448\u043A\u043E\u043C \u043C\u0430\u043B\u0435\u043D\u044C\u043A\u043E\u0435 \u0437\u043D\u0430\u0447\u0435\u043D\u0438\u0435: \u043E\u0436\u0438\u0434\u0430\u043B\u043E\u0441\u044C, \u0447\u0442\u043E ${issue2.origin} \u0431\u0443\u0434\u0435\u0442 \u0438\u043C\u0435\u0442\u044C ${adj}${issue2.minimum.toString()} ${unit}`;
+              const unit2 = getRussianPlural(minValue, sizing.unit.one, sizing.unit.few, sizing.unit.many);
+              return `\u0421\u043B\u0438\u0448\u043A\u043E\u043C \u043C\u0430\u043B\u0435\u043D\u044C\u043A\u043E\u0435 \u0437\u043D\u0430\u0447\u0435\u043D\u0438\u0435: \u043E\u0436\u0438\u0434\u0430\u043B\u043E\u0441\u044C, \u0447\u0442\u043E ${issue2.origin} \u0431\u0443\u0434\u0435\u0442 \u0438\u043C\u0435\u0442\u044C ${adj}${issue2.minimum.toString()} ${unit2}`;
             }
             return `\u0421\u043B\u0438\u0448\u043A\u043E\u043C \u043C\u0430\u043B\u0435\u043D\u044C\u043A\u043E\u0435 \u0437\u043D\u0430\u0447\u0435\u043D\u0438\u0435: \u043E\u0436\u0438\u0434\u0430\u043B\u043E\u0441\u044C, \u0447\u0442\u043E ${issue2.origin} \u0431\u0443\u0434\u0435\u0442 ${adj}${issue2.minimum.toString()}`;
           }
@@ -15121,11 +15121,11 @@ function _minLength(minimum, params) {
   });
 }
 // @__NO_SIDE_EFFECTS__
-function _length(length, params) {
+function _length(length2, params) {
   return new $ZodCheckLengthEquals({
     check: "length_equals",
     ...normalizeParams(params),
-    length
+    length: length2
   });
 }
 // @__NO_SIDE_EFFECTS__
@@ -15439,13 +15439,13 @@ function _promise(Class2, innerType) {
 }
 // @__NO_SIDE_EFFECTS__
 function _custom(Class2, fn, _params) {
-  const norm = normalizeParams(_params);
-  norm.abort ?? (norm.abort = true);
+  const norm2 = normalizeParams(_params);
+  norm2.abort ?? (norm2.abort = true);
   const schema = new Class2({
     type: "custom",
     check: "custom",
     fn,
-    ...norm
+    ...norm2
   });
   return schema;
 }
@@ -19457,12 +19457,12 @@ function containsRef(value) {
     return value.some(containsRef);
   if (typeof value.$ref === "string")
     return true;
-  return Object.entries(value).some(([key, sub]) => {
+  return Object.entries(value).some(([key, sub3]) => {
     if (SCHEMA_KEYWORDS.has(key))
-      return containsRef(sub);
-    if (!SCHEMA_MAP_KEYWORDS.has(key) || typeof sub !== "object" || sub === null)
+      return containsRef(sub3);
+    if (!SCHEMA_MAP_KEYWORDS.has(key) || typeof sub3 !== "object" || sub3 === null)
       return false;
-    return Object.values(sub).some(containsRef);
+    return Object.values(sub3).some(containsRef);
   });
 }
 function plural(n) {
@@ -22468,11 +22468,11 @@ var require_fast_deep_equal = __commonJS({
       if (a === b) return true;
       if (a && b && typeof a == "object" && typeof b == "object") {
         if (a.constructor !== b.constructor) return false;
-        var length, i, keys;
+        var length2, i, keys;
         if (Array.isArray(a)) {
-          length = a.length;
-          if (length != b.length) return false;
-          for (i = length; i-- !== 0; )
+          length2 = a.length;
+          if (length2 != b.length) return false;
+          for (i = length2; i-- !== 0; )
             if (!equal(a[i], b[i])) return false;
           return true;
         }
@@ -22480,11 +22480,11 @@ var require_fast_deep_equal = __commonJS({
         if (a.valueOf !== Object.prototype.valueOf) return a.valueOf() === b.valueOf();
         if (a.toString !== Object.prototype.toString) return a.toString() === b.toString();
         keys = Object.keys(a);
-        length = keys.length;
-        if (length !== Object.keys(b).length) return false;
-        for (i = length; i-- !== 0; )
+        length2 = keys.length;
+        if (length2 !== Object.keys(b).length) return false;
+        for (i = length2; i-- !== 0; )
           if (!Object.prototype.hasOwnProperty.call(b, keys[i])) return false;
-        for (i = length; i-- !== 0; ) {
+        for (i = length2; i-- !== 0; ) {
           var key = keys[i];
           if (!equal(a[key], b[key])) return false;
         }
@@ -25545,11 +25545,11 @@ var require_ucs2length = __commonJS({
     Object.defineProperty(exports, "__esModule", { value: true });
     function ucs2length(str) {
       const len = str.length;
-      let length = 0;
+      let length2 = 0;
       let pos = 0;
       let value;
       while (pos < len) {
-        length++;
+        length2++;
         value = str.charCodeAt(pos++);
         if (value >= 55296 && value <= 56319 && pos < len) {
           value = str.charCodeAt(pos);
@@ -25557,7 +25557,7 @@ var require_ucs2length = __commonJS({
             pos++;
         }
       }
-      return length;
+      return length2;
     }
     exports.default = ucs2length;
     ucs2length.code = 'require("ajv/dist/runtime/ucs2length").default';
@@ -27835,8 +27835,8 @@ var ZodError = class _ZodError extends Error {
   constructor(issues) {
     super();
     this.issues = [];
-    this.addIssue = (sub) => {
-      this.issues = [...this.issues, sub];
+    this.addIssue = (sub3) => {
+      this.issues = [...this.issues, sub3];
     };
     this.addIssues = (subs = []) => {
       this.issues = [...this.issues, ...subs];
@@ -27918,13 +27918,13 @@ var ZodError = class _ZodError extends Error {
   flatten(mapper = (issue2) => issue2.message) {
     const fieldErrors = /* @__PURE__ */ Object.create(null);
     const formErrors = [];
-    for (const sub of this.issues) {
-      if (sub.path.length > 0) {
-        const firstEl = sub.path[0];
+    for (const sub3 of this.issues) {
+      if (sub3.path.length > 0) {
+        const firstEl = sub3.path[0];
         fieldErrors[firstEl] = fieldErrors[firstEl] || [];
-        fieldErrors[firstEl].push(mapper(sub));
+        fieldErrors[firstEl].push(mapper(sub3));
       } else {
-        formErrors.push(mapper(sub));
+        formErrors.push(mapper(sub3));
       }
     }
     return { formErrors, fieldErrors };
@@ -37471,6 +37471,266 @@ import { readFile, realpath, stat } from "node:fs/promises";
 import { extname, basename, resolve, relative, isAbsolute, delimiter } from "node:path";
 import { homedir } from "node:os";
 import { Worker } from "node:worker_threads";
+
+// server/faces.mjs
+var sub = (a, b) => a.map((v2, i) => v2 - b[i]);
+var dot = (a, b) => a.reduce((s, v2, i) => s + v2 * b[i], 0);
+var cross = (a, b) => [a[1] * b[2] - a[2] * b[1], a[2] * b[0] - a[0] * b[2], a[0] * b[1] - a[1] * b[0]];
+var length = (a) => Math.hypot(...a);
+var point = (positions, index) => [positions[index * 3], positions[index * 3 + 1], positions[index * 3 + 2]];
+function measureFace(positions, indices, triangleIds = null) {
+  let area = 0, reference = null, planar = true;
+  const weighted = [0, 0, 0], min = [Infinity, Infinity, Infinity], max = [-Infinity, -Infinity, -Infinity];
+  for (const triangle of triangleIds || Array.from({ length: indices.length / 3 }, (_2, i) => i)) {
+    const p2 = [0, 1, 2].map((j2) => point(positions, indices[triangle * 3 + j2]));
+    const n = cross(sub(p2[1], p2[0]), sub(p2[2], p2[0])), twiceArea = length(n);
+    if (twiceArea < 1e-20) continue;
+    const normal = n.map((v2) => v2 / twiceArea);
+    reference ||= normal;
+    if (Math.abs(dot(reference, normal)) < 1 - 1e-6) planar = false;
+    const a = twiceArea / 2;
+    area += a;
+    for (let i = 0; i < 3; i++) {
+      weighted[i] += (p2[0][i] + p2[1][i] + p2[2][i]) / 3 * a;
+      for (const v2 of p2) {
+        min[i] = Math.min(min[i], v2[i]);
+        max[i] = Math.max(max[i], v2[i]);
+      }
+    }
+  }
+  if (!area) return { surfaceType: "mesh", area: 0, centroid: [0, 0, 0], bounds: { min: [0, 0, 0], max: [0, 0, 0], size: [0, 0, 0] } };
+  const centroid = weighted.map((v2) => v2 / area), result = { surfaceType: planar ? "plane" : "curved", area, centroid, bounds: { min, max, size: max.map((v2, i) => v2 - min[i]) } };
+  if (planar) {
+    result.normal = reference;
+    result.planeOffset = -dot(reference, centroid);
+  }
+  return result;
+}
+function buildFaces(positions, indices, sourceFaceIds, edges) {
+  const count = indices.length / 3, parent = Uint32Array.from({ length: count }, (_2, i) => i);
+  const find = (i) => {
+    let root = i;
+    while (parent[root] !== root) root = parent[root];
+    while (parent[i] !== i) {
+      const next = parent[i];
+      parent[i] = root;
+      i = next;
+    }
+    return root;
+  };
+  for (const edge of edges.values()) if (edge.otherTriangle !== void 0 && edge.coplanar && sourceFaceIds[edge.triangle] < 0 && sourceFaceIds[edge.otherTriangle] < 0) {
+    const a = find(edge.triangle), b = find(edge.otherTriangle);
+    if (a !== b) parent[b] = a;
+  }
+  const groups = [], ids = /* @__PURE__ */ new Map(), faceMap = new Uint32Array(count);
+  for (let i = 0; i < count; i++) {
+    const key = sourceFaceIds[i] >= 0 ? "face" + sourceFaceIds[i] : "mesh" + find(i);
+    let id = ids.get(key);
+    if (id === void 0) {
+      id = groups.length;
+      ids.set(key, id);
+      groups.push([]);
+    }
+    groups[id].push(i);
+    faceMap[i] = id;
+  }
+  if (groups.length > 1e4) return { faces: [], faceMap, groups: [] };
+  const faces = groups.map((triangles, id) => ({ id, ...measureFace(positions, indices, triangles) }));
+  return { faces, faceMap, groups };
+}
+function enrichCylinders(faces, groups, features, positions, indices) {
+  const circular = features.filter((f2) => f2.type === "circle" || f2.type === "arc");
+  for (const face of faces) {
+    if (face.surfaceType !== "curved") continue;
+    const candidates = circular.filter((f2) => f2.faceIds.includes(face.id));
+    let found = false;
+    for (let i = 0; i < candidates.length && !found; i++) for (let j2 = i + 1; j2 < candidates.length && !found; j2++) {
+      const a = candidates[i], b = candidates[j2], delta = sub(b.center, a.center), h2 = length(delta), radius = (a.radius + b.radius) / 2, tolerance = Math.max(radius * 3e-4, 1e-6);
+      if (h2 < 1e-6 || Math.abs(a.radius - b.radius) > tolerance || Math.abs(dot(a.normal, b.normal)) < 0.9999) continue;
+      const direction = delta.map((v2) => v2 / h2);
+      if (Math.abs(dot(direction, a.normal)) < 0.9999) continue;
+      let low = Infinity, high = -Infinity, valid = true;
+      for (const triangle of groups[face.id]) for (let k2 = 0; k2 < 3; k2++) {
+        const p2 = sub(point(positions, indices[triangle * 3 + k2]), a.center), t = dot(p2, direction), radial = p2.map((v2, i2) => v2 - t * direction[i2]);
+        if (Math.abs(length(radial) - radius) > tolerance) {
+          valid = false;
+          break;
+        }
+        low = Math.min(low, t);
+        high = Math.max(high, t);
+      }
+      if (valid) {
+        Object.assign(face, { surfaceType: "cylinder", radius, diameter: radius * 2, height: high - low, axis: { origin: a.center, direction, min: low, max: high } });
+        found = true;
+      }
+    }
+  }
+}
+
+// server/edges.mjs
+var sub2 = (a, b) => a.map((v2, i) => v2 - b[i]);
+var dot2 = (a, b) => a.reduce((s, v2, i) => s + v2 * b[i], 0);
+var cross2 = (a, b) => [a[1] * b[2] - a[2] * b[1], a[2] * b[0] - a[0] * b[2], a[0] * b[1] - a[1] * b[0]];
+var norm = (a) => Math.hypot(...a);
+var unit = (a) => {
+  const d2 = norm(a);
+  return d2 ? a.map((v2) => v2 / d2) : [0, 0, 0];
+};
+var distance = (a, b) => norm(sub2(a, b));
+var pathLength = (p2) => p2.slice(1).reduce((s, v2, i) => s + distance(v2, p2[i]), 0);
+function fitCircle(input2, closed = false) {
+  const points = input2.slice();
+  if (points.length > 1 && distance(points[0], points.at(-1)) < 1e-9) points.pop();
+  if (points.length < (closed ? 10 : 5)) return null;
+  const origin = [0, 1, 2].map((i) => points.reduce((s, p2) => s + p2[i], 0) / points.length), local = points.map((p2) => sub2(p2, origin));
+  const u2 = unit(local.reduce((a, b) => norm(a) > norm(b) ? a : b)), axis = local.map((p2) => cross2(u2, p2)).reduce((a, b) => norm(a) > norm(b) ? a : b), normal = unit(axis);
+  if (norm(axis) < 1e-10) return null;
+  const v2 = cross2(normal, u2), scale = local.reduce((largest, p2) => Math.max(largest, norm(p2)), 0);
+  if (!scale) return null;
+  const xy = local.map((p2) => [dot2(p2, u2) / scale, dot2(p2, v2) / scale]);
+  let xx = 0, yy = 0, xySum = 0, bx = 0, by = 0;
+  for (const [x, y] of xy) {
+    const r2 = x * x + y * y;
+    xx += x * x;
+    yy += y * y;
+    xySum += x * y;
+    bx += x * r2 / 2;
+    by += y * r2 / 2;
+  }
+  const determinant = xx * yy - xySum * xySum;
+  if (determinant < 1e-10 * (xx + yy) ** 2) return null;
+  const cx = (bx * yy - by * xySum) / determinant, cy = (by * xx - bx * xySum) / determinant;
+  const radius = scale * Math.sqrt((xx + yy) / points.length + cx * cx + cy * cy), center = origin.map((p2, i) => p2 + scale * (u2[i] * cx + v2[i] * cy));
+  const tolerance = Math.max(1e-6, scale * 2e-7, radius * 1e-4);
+  const planeError = local.reduce((largest, p2) => Math.max(largest, Math.abs(dot2(p2, normal))), 0);
+  const residual = points.reduce((largest, p2) => Math.max(largest, Math.abs(distance(p2, center) - radius)), 0);
+  if (planeError > tolerance || residual > tolerance) return null;
+  const angles = xy.map(([x, y]) => Math.atan2(y - cy, x - cx));
+  let sweep = 0, sign = 0;
+  for (let i = 1; i < angles.length + (closed ? 1 : 0); i++) {
+    const delta = Math.atan2(Math.sin(angles[i % angles.length] - angles[i - 1]), Math.cos(angles[i % angles.length] - angles[i - 1]));
+    if (Math.abs(delta) > Math.PI / 2 || Math.abs(delta) < 1e-10) return null;
+    if (sign && Math.sign(delta) !== sign) return null;
+    sign = Math.sign(delta);
+    sweep += delta;
+  }
+  if (closed ? Math.abs(Math.abs(sweep) - Math.PI * 2) > 0.01 : Math.abs(sweep) < 0.12 || Math.abs(sweep) > Math.PI * 2 + 1e-3) return null;
+  return { center, radius, diameter: radius * 2, normal, residual, angle: Math.abs(sweep) * 180 / Math.PI, length: radius * Math.abs(sweep) };
+}
+function primitives(points, closed, epsilon) {
+  const total = pathLength(points), span = distance(points[0], points.at(-1));
+  if (!closed && total - span <= Math.max(epsilon * 5, total * 1e-7)) return [{ type: "line", points: [points[0], points.at(-1)], length: span, closed: false }];
+  const circle = fitCircle(points, closed);
+  if (circle) return [{ type: closed ? "circle" : "arc", points, closed, ...circle }];
+  const p2 = closed ? points.slice(0, -1) : points, kinks = [];
+  for (let i = closed ? 0 : 1; i < (closed ? p2.length : p2.length - 1); i++) {
+    const a = unit(sub2(p2[i], p2[(i + p2.length - 1) % p2.length])), b = unit(sub2(p2[(i + 1) % p2.length], p2[i]));
+    if (dot2(a, b) < Math.cos(Math.PI / 9)) kinks.push(i);
+  }
+  if (kinks.length) {
+    const breaks = closed ? kinks : [0, ...kinks, p2.length - 1], result = [];
+    for (let i = 0; i < breaks.length - (closed ? 0 : 1); i++) {
+      const start = breaks[i], end = breaks[(i + 1) % breaks.length], segment = [];
+      let j2 = start;
+      segment.push(p2[j2]);
+      do {
+        j2 = (j2 + 1) % p2.length;
+        segment.push(p2[j2]);
+      } while (j2 !== end);
+      const length2 = pathLength(segment), line = distance(segment[0], segment.at(-1)), arc = fitCircle(segment, false);
+      result.push(length2 - line <= Math.max(epsilon * 5, length2 * 1e-7) ? { type: "line", points: [segment[0], segment.at(-1)], closed: false, length: line } : arc ? { type: "arc", points: segment, closed: false, ...arc } : { type: "curve", points: segment, closed: false, length: length2 });
+    }
+    return result;
+  }
+  return [{ type: "curve", points, closed, length: total }];
+}
+function extractEdges(positions, indices, faces = []) {
+  if (indices.length / 3 > 25e4) return { features: [], featureStatus: "limit", faces: [], faceMap: null };
+  let size = 0;
+  const min = [Infinity, Infinity, Infinity], max = [-Infinity, -Infinity, -Infinity];
+  for (let i = 0; i < positions.length; i++) {
+    const k2 = i % 3;
+    min[k2] = Math.min(min[k2], positions[i]);
+    max[k2] = Math.max(max[k2], positions[i]);
+  }
+  size = distance(min, max);
+  const epsilon = Math.max(size * 1e-8, 1e-7), vertices = [], welded = new Uint32Array(positions.length / 3), buckets = /* @__PURE__ */ new Map();
+  for (let i = 0; i < welded.length; i++) {
+    const p2 = [positions[i * 3], positions[i * 3 + 1], positions[i * 3 + 2]], key = p2.map((n, k2) => Math.round((n - min[k2]) / epsilon)).join(",");
+    let id = buckets.get(key);
+    if (id === void 0) {
+      id = vertices.length;
+      vertices.push(p2);
+      buckets.set(key, id);
+    }
+    welded[i] = id;
+  }
+  const faceIds = new Int32Array(indices.length / 3).fill(-1);
+  for (let i = 0; i < faces.length; i++) {
+    const [first, last] = faces[i];
+    if (Number.isInteger(first) && Number.isInteger(last) && first >= 0 && last < faceIds.length) faceIds.fill(i, first, last + 1);
+  }
+  const edges = /* @__PURE__ */ new Map(), cosine = Math.cos(35 * Math.PI / 180);
+  for (let i = 0; i < indices.length; i += 3) {
+    const ids = [welded[indices[i]], welded[indices[i + 1]], welded[indices[i + 2]]];
+    if (new Set(ids).size < 3) continue;
+    const normal = unit(cross2(sub2(vertices[ids[1]], vertices[ids[0]]), sub2(vertices[ids[2]], vertices[ids[0]]))), face = faceIds[i / 3];
+    for (let j2 = 0; j2 < 3; j2++) {
+      const a = ids[j2], b = ids[(j2 + 1) % 3], key = a < b ? `${a},${b}` : `${b},${a}`, old = edges.get(key);
+      if (!old) edges.set(key, { a, b, normal, face, triangle: i / 3, count: 1, feature: false });
+      else {
+        old.otherTriangle = i / 3;
+        old.coplanar = Math.abs(dot2(normal, old.normal)) > 1 - 1e-8;
+        old.count++;
+        old.feature ||= old.count > 2 || (face >= 0 && old.face >= 0 ? face !== old.face : dot2(normal, old.normal) < cosine);
+      }
+    }
+  }
+  const boundary = [...edges.values()].filter((e) => e.count === 1 || e.feature), adjacent = /* @__PURE__ */ new Map();
+  boundary.forEach((e, i) => {
+    for (const id of [e.a, e.b]) {
+      if (!adjacent.has(id)) adjacent.set(id, []);
+      adjacent.get(id).push(i);
+    }
+  });
+  const { faces: faceData, faceMap, groups } = buildFaces(positions, indices, faceIds, edges);
+  const used = /* @__PURE__ */ new Set(), features = [];
+  let samples = 0, limited = false;
+  function trace(start, edgeId) {
+    if (limited) return;
+    const points = [vertices[start]], sourceFaces = /* @__PURE__ */ new Set();
+    let node2 = start, nextEdge = edgeId;
+    do {
+      used.add(nextEdge);
+      const edge = boundary[nextEdge];
+      sourceFaces.add(faceMap[edge.triangle]);
+      if (edge.otherTriangle !== void 0) sourceFaces.add(faceMap[edge.otherTriangle]);
+      node2 = edge.a === node2 ? edge.b : edge.a;
+      points.push(vertices[node2]);
+      const links = adjacent.get(node2);
+      if (node2 === start || links.length !== 2) break;
+      nextEdge = links.find((i) => !used.has(i));
+    } while (nextEdge !== void 0);
+    for (const feature of primitives(points, node2 === start, epsilon)) {
+      samples += feature.points.length;
+      if (features.length >= 5e3 || samples > 1e5) {
+        limited = true;
+        break;
+      }
+      if (feature.length > epsilon * 2) features.push({ id: features.length, approximate: true, faceIds: [...sourceFaces], ...feature });
+    }
+  }
+  for (const [node2, links] of adjacent) if (links.length !== 2) {
+    for (const id of links) if (!used.has(id)) trace(node2, id);
+  }
+  boundary.forEach((edge, i) => {
+    if (!used.has(i)) trace(edge.a, i);
+  });
+  enrichCylinders(faceData, groups, features, positions, indices);
+  return { features, featureStatus: limited ? "limit" : "ready", faces: faceData, faceMap: faceData.length ? faceMap : null };
+}
+
+// server/cad.mjs
 var MAX_FILE_BYTES = 30 * 1024 * 1024;
 var UNITS = { mm: 1, cm: 10, m: 1e3, in: 25.4 };
 function measure(a, b) {
@@ -37505,10 +37765,13 @@ function normalize(rawParts, { name, format, tolerance = 0, sourceUnits = "mm" }
     triangles += indices.length / 3;
     vertices += positions.length / 3;
     if (triangles > 1e6 || vertices > 2e6) throw new Error("Model exceeds the one million triangle preview limit. Use a coarser display tolerance.");
+    const edgeData = extractEdges(positions, indices, p2.faces);
+    if (edgeData.faceMap) edgeData.faceMap = encoded(edgeData.faceMap, Uint32Array);
     return {
       id: partId,
       name: decodeStepName(p2.name) || `Part ${partId + 1}`,
       color: p2.color?.slice(0, 3),
+      ...edgeData,
       positionType: "float64",
       positions: encoded(positions, Float64Array),
       indices: encoded(indices, Uint32Array),
@@ -37602,14 +37865,14 @@ function summary(m2) {
 }
 
 // server/index.mjs
-var UI = "ui://cad-viewer/v0.3.1/viewer.html";
+var UI = "ui://cad-viewer/v0.4.0/viewer.html";
 var html = await readFile2(new URL("./viewer.html", import.meta.url), "utf8");
 var readonly2 = { readOnlyHint: true, destructiveHint: false, idempotentHint: true, openWorldHint: false };
 var modelReply = (model) => ({ content: [{ type: "text", text: JSON.stringify(summary(model)) }], structuredContent: summary(model), _meta: { model } });
 var errorReply = (e) => ({ isError: true, content: [{ type: "text", text: e.message }] });
 var options = { tolerance: external_exports.number().min(0.01).max(2).default(0.05), stlUnits: external_exports.enum(["mm", "cm", "m", "in"]).default("mm") };
 function createCadServer() {
-  const server = new McpServer({ name: "cad-viewer", version: "0.3.1" });
+  const server = new McpServer({ name: "cad-viewer", version: "0.4.0" });
   N3(server, "CAD viewer", UI, {}, async () => ({ contents: [{ uri: UI, mimeType: p, text: html, _meta: { ui: { prefersBorder: true, csp: { connectDomains: [], resourceDomains: [] } } } }] }));
   K3(server, "open_cad", {
     title: "Open CAD model",

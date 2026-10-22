@@ -1,8 +1,8 @@
 {
   "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
   "name": "cad-viewer",
-  "version": "0.3.1",
-  "description": "Open local STEP and STL models, inspect assemblies, and measure distances in ChatGPT desktop.",
+  "version": "0.4.0",
+  "description": "View local STEP/STL assemblies and measure points, circles, edges and faces in ChatGPT desktop.",
   "license": "MIT",
   "author": {"name": "HappyGame137"},
   "homepage": "https://github.com/HappyGame137/cad-viewer-chatgpt",
@@ -13,8 +13,8 @@
       "requires_local_executor": true,
       "interface": {
         "displayName": "CAD Viewer · 三维查看与测量",
-        "shortDescription": "View STEP/STL models and measure dimensions locally.",
-        "longDescription": "Inspect local CAD assemblies with orbit, zoom, part isolation, exploded views, solid section faces with preserved holes, bounding dimensions, and point-to-point mesh measurement. Switch between English and Chinese without resetting your view or measurements. STEP is converted locally to a display mesh. STL source units are selected explicitly.",
+        "shortDescription": "Inspect STEP/STL, circles, edges and faces locally.",
+        "longDescription": "Inspect local CAD assemblies with multiple part selection, exploded views and filled sections. Measure point distances, circular rim centres and diameters, lines, arcs and face parameters. Measurements use the display mesh and are approximate. Switch between English and Chinese without resetting the view. STEP conversion is local; STL source units are selected explicitly.",
         "category": "Productivity",
         "developerName": "HappyGame137",
         "websiteURL": "https://github.com/HappyGame137/cad-viewer-chatgpt",
@@ -23,7 +23,7 @@
         "defaultPrompt": ["Open my STEP model and show its dimensions.", "打开三维模型并测量两个点之间的距离。"],
         "composerIcon": "./assets/icon.svg",
         "logo": "./assets/icon.svg",
-        "screenshots": ["./assets/screenshot-measurement.png", "./assets/screenshot-english.png", "./assets/screenshot-section.png"]
+        "screenshots": ["./assets/screenshot-circle.png", "./assets/screenshot-face.png", "./assets/screenshot-parts.png", "./assets/screenshot-measurement.png", "./assets/screenshot-section.png"]
       }
     }
   }

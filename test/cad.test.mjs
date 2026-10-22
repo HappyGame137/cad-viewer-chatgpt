@@ -6,6 +6,7 @@ const ascii=Buffer.from('solid triangle\nfacet normal 0 0 1\nouter loop\nvertex 
 test('ASCII STL dimensions and explicit unit conversion',()=>{
   assert.deepEqual(parseStl(ascii,'triangle.stl').bounds.size,[20,10,0]);
   assert.deepEqual(parseStl(ascii,'triangle.stl','in').bounds.size,[508,254,0]);
+  const inch=parseStl(ascii,'triangle.stl','in').parts[0];assert.ok(inch.features.some(f=>Math.abs(f.length-508)<1e-8));assert.ok(Math.abs(inch.faces[0].area-64516)<1e-8);
 });
 test('binary STL is detected even when its header starts with solid',()=>{
   const b=Buffer.alloc(134);b.write('solid binary');b.writeUInt32LE(1,80);

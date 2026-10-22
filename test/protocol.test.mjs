@@ -22,6 +22,13 @@ test('bundled MCP server: tool metadata, UI resource, STEP, STL and measurement'
       else assert.deepEqual(r.structuredContent.bounds.size,[40,24,27]);
     }
     const invalid=await client.callTool({name:'convert_cad',arguments:{name:'fake.step',base64:Buffer.from('invalid STEP').toString('base64')}});assert.equal(invalid.isError,true);
+    const edges=await client.callTool({name:'open_cad',arguments:{path:fileURLToPath(new URL('../examples/measure-edges.step',import.meta.url))}});
+    assert.ok(!edges.isError,JSON.stringify(edges));const parts=edges._meta.model.parts;assert.equal(parts.length,3);
+    const hole=parts.find(p=>p.name.startsWith('Plate')).features.filter(f=>f.type==='circle');assert.equal(hole.length,2);
+    assert.ok(hole.every(f=>Math.abs(f.diameter-6)<1e-6&&Math.abs(f.center[0]-15)<1e-6&&Math.abs(f.center[1]-11)<1e-6));
+    const arcs=parts.find(p=>p.name.startsWith('Quarter')).features.filter(f=>f.type==='arc');assert.ok(arcs.some(f=>Math.abs(f.radius-10)<1e-6&&Math.abs(f.angle-90)<1e-6));
+    const bore=parts.find(p=>p.name.startsWith('Plate')).faces.find(f=>f.surfaceType==='cylinder');assert.ok(bore);assert.ok(Math.abs(bore.diameter-6)<1e-6);assert.ok(Math.abs(bore.height-5)<1e-6);assert.ok(Math.abs(Math.abs(bore.axis.direction[2])-1)<1e-6);
+    const top=parts.find(p=>p.name.startsWith('Plate')).faces.find(f=>f.surfaceType==='plane'&&f.normal[2]>.99);assert.ok(top.area>631&&top.area<633);assert.ok(Math.abs(top.centroid[2]-5)<1e-6);
     assert.equal(diagnostics,'','No library diagnostics may corrupt stdio');
   }finally{await client.close();}
 });

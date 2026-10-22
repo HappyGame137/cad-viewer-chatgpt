@@ -2,15 +2,17 @@
 
 English · [简体中文](README.md)
 
-View local STEP/STL models, inspect assemblies and measure approximate dimensions. Community beta 0.3.1, with English and Simplified Chinese interfaces.
+View local STEP/STL models, inspect assemblies and measure approximate dimensions. Community beta 0.4.0, with English and Simplified Chinese interfaces.
 
 ![20 mm measurement in the English interface](assets/screenshot-english.png)
 
 ## Features
 
 - Local STEP/STP conversion with part names and colors; STL loading with explicit source units.
-- Orbit, zoom, pan, part isolation, exploded views and filled section faces that preserve actual holes.
+- Orbit, zoom, pan, multiple part selection, exploded views and filled section faces that preserve actual holes.
 - Point-to-point distance, XYZ differences, nearest triangle vertex snapping and axis-aligned bounding dimensions.
+- Select circular rims, lines, arcs and general curves for approximate geometric measurements.
+- Select faces for mesh area, area centroid and planar normals; recognised cylinders also provide diameter, axis and axial extent.
 - Display units: mm, cm and in. STL source units: mm, cm, m and in.
 - Instant English / Chinese switching. View, clipping, selection and measurements survive language changes; original file and part names are retained.
 - MCP Apps UI and ChatGPT file entry points, with a browser preview for compatibility.
@@ -21,6 +23,13 @@ Requires Node.js 22+ on PATH and a desktop ChatGPT / Codex host that supports lo
 
 ```text
 codex plugin marketplace add HappyGame137/cad-viewer-chatgpt
+codex plugin add cad-viewer@cad-viewer-community
+```
+
+To update a GitHub marketplace installation, run these commands and restart the desktop app:
+
+```text
+codex plugin marketplace upgrade cad-viewer-community
 codex plugin add cad-viewer@cad-viewer-community
 ```
 
@@ -49,7 +58,19 @@ Turn on Measure and click two points. The viewer reports distance and absolute X
 
 Turning Measure off clears its points and line. Clipped or hidden endpoints are hidden. The canvas fills the remaining window height below the compact controls; model details and hints appear in the footer.
 
-STEP is imported in millimetres with a default display mesh tolerance of 0.05 mm. This parameter is not a guaranteed measurement error. Measurements use the display triangle mesh; exact B-rep measurement, automatic hole diameter, radius, angle, minimum gap and wall thickness are not implemented. Bounding dimensions use the original axes, rather than an arbitrary minimum-volume orientation.
+STEP is imported in millimetres with a default display mesh tolerance of 0.05 mm. This parameter is not a guaranteed measurement error. Measurements use the display triangle mesh; exact B-rep measurement, angles between edges, minimum gap and wall thickness are not implemented. Bounding dimensions use the original axes, rather than an arbitrary minimum-volume orientation.
+
+## Edges, faces and multiple parts
+
+Turn on Edges and click a visible boundary. A circular rim can also be selected by clicking inside it. Circles report centre XYZ and diameter; lines report length and endpoints; arcs report radius, length, angle, centre and endpoints. General curves report an approximate polyline length. Fitting checks reject unreliable circle candidates. A cross marks the circle centre, and switching off the mode or clearing removes annotations.
+
+Turn on Faces and click a surface. Planes report mesh area, area centroid and normal. Recognised cylinders add diameter, axis direction and axial extent. Other curved faces report mesh area, centroid and bounds without inventing a constant normal. STEP retains source face triangle ranges; STL combines adjacent coplanar triangles and cannot recover its original surface topology. Section caps can also be measured; moving the cut clears an obsolete cap selection.
+
+An area centroid may lie outside the surface, such as inside a hole. Cylinder height means the selected surface's axial extent. Original face parameters describe the complete source face, rather than only its visible clipped portion. Measurements use original assembly coordinates even in an exploded view. Area units scale by the square of the selected display unit.
+
+Open View to check any combination of parts, select all or clear the selection. Dimensions follow the selected parts' original bounds. Hidden parts' measurement highlights are hidden. Fit frames the currently visible parts.
+
+The generic `examples/measure-edges.step` contains a plate with a 6 mm through hole, a 10 mm cylinder and R10/R6 quarter arcs. Edge analysis is limited per part to 250,000 triangles, 5,000 features and 100,000 boundary samples. Dense meshes or more than 10,000 face groups fall back to explicitly labelled individual mesh triangles for face measurement.
 
 Section mode fills cut material with a warm tint while leaving real bores and cavities open. Section faces support point picking and approximate mesh measurement. The display caps never modify the source model. Open or branching cut contours are left uncapped with a message rather than inventing solid material. Try `examples/section-tube-20mm.stl`: a generic 20 mm block with a 10 mm through hole.
 

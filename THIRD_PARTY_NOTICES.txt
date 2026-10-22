@@ -1,4 +1,4 @@
-Third-party notices for CAD Viewer 0.3.1
+Third-party notices for CAD Viewer 0.4.0
 
 Original plugin code: MIT, Copyright 2026 HappyGame137.
 Bundled occt-import-js 0.0.23 and Open CASCADE retain LGPL-2.1 and the Open CASCADE exception. Their unmodified JavaScript and WebAssembly files are separate, replaceable components in dist/vendor.
