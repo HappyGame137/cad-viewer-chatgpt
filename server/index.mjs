@@ -7,7 +7,7 @@ import { fileURLToPath } from 'node:url';
 import { createServer } from 'node:http';
 import { openFile, convertBytes, summary, demoModel, measure, MAX_FILE_BYTES } from './cad.mjs';
 
-const UI='ui://cad-viewer/v0.1.3/viewer.html';
+const UI='ui://cad-viewer/v0.2.0/viewer.html';
 const html=await readFile(new URL('./viewer.html',import.meta.url),'utf8');
 const readonly={readOnlyHint:true,destructiveHint:false,idempotentHint:true,openWorldHint:false};
 const modelReply=model=>({content:[{type:'text',text:JSON.stringify(summary(model))}],structuredContent:summary(model),_meta:{model}});
@@ -15,7 +15,7 @@ const errorReply=e=>({isError:true,content:[{type:'text',text:e.message}]});
 const options={tolerance:z.number().min(.01).max(2).default(.05),stlUnits:z.enum(['mm','cm','m','in']).default('mm')};
 
 export function createCadServer() {
-  const server=new McpServer({name:'cad-viewer',version:'0.1.3'});
+  const server=new McpServer({name:'cad-viewer',version:'0.2.0'});
   registerAppResource(server,'CAD viewer',UI,{},async()=>({contents:[{uri:UI,mimeType:RESOURCE_MIME_TYPE,text:html,_meta:{ui:{prefersBorder:true,csp:{connectDomains:[],resourceDomains:[]}}}}]}));
   registerAppTool(server,'open_cad',{
     title:'Open CAD model',description:'View a user-selected local STEP/STL model and its approximate dimensions. Supply an absolute path; omit it to open the viewer. Files are read only. STL source units default to mm and can be specified.',

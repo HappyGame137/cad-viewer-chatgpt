@@ -38,26 +38,26 @@ canvas{display:block;width:100%;height:100%;touch-action:none}
 @media(max-width:500px){main{padding:7px 8px 5px}.tools{gap:5px}.cad-meta-row{gap:1px 8px}}
 </style></head>
 <body><main id="cad-viewer-app">
-<header><h1>CAD Viewer <span aria-hidden="true">·</span> 三维查看与测量</h1><div class="filebar"><label class="file-label">打开文件<input id="cad-file" type="file" accept=".step,.stp,.stl"></label><button id="cad-demo" type="button">通用演示</button></div></header>
+<header><h1 data-i18n="title">CAD Viewer · 三维查看与测量</h1><div class="filebar"><label class="file-label"><span data-i18n="open">打开文件</span><input id="cad-file" type="file" accept=".step,.stp,.stl" data-i18n-aria="open"></label><button id="cad-demo" type="button" data-i18n="demo">通用演示</button><select id="cad-language" aria-label="Language / 语言"><option value="zh" lang="zh-CN">中文</option><option value="en" lang="en">English</option></select></div></header>
 <div class="tools">
-<label>显示 <select id="cad-part" aria-label="显示零件"><option value="all">全部零件</option></select></label>
-<label>拆分 <input id="cad-explode" type="range" min="0" max="100" value="0" aria-label="装配拆分程度"></label>
-<label><input id="cad-section" type="checkbox">剖切</label><input id="cad-section-pos" type="range" min="-100" max="100" value="0" aria-label="剖切位置" hidden>
-<button id="cad-fit" type="button">适合窗口</button>
+<label><span data-i18n="view">显示</span> <select id="cad-part" aria-label="显示零件" data-i18n-aria="partAria"><option value="all">全部零件</option></select></label>
+<label><span data-i18n="explode">拆分</span> <input id="cad-explode" type="range" min="0" max="100" value="0" aria-label="装配拆分程度" data-i18n-aria="explodeAria"></label>
+<label><input id="cad-section" type="checkbox"><span data-i18n="section">剖切</span></label><input id="cad-section-pos" type="range" min="-100" max="100" value="0" aria-label="剖切位置" data-i18n-aria="sectionAria" hidden>
+<button id="cad-fit" type="button" data-i18n="fit">适合窗口</button>
 </div>
 <div class="tools">
-<button id="cad-measure" type="button" aria-pressed="false">两点测量</button>
-<label><input id="cad-snap" type="checkbox" checked>顶点吸附</label>
-<button id="cad-clear" type="button">清除测量</button>
-<label>显示单位 <select id="cad-unit"><option value="mm">mm</option><option value="cm">cm</option><option value="in">in</option></select></label>
-<label>STL 原始单位 <select id="cad-stl-unit"><option value="mm">mm</option><option value="cm">cm</option><option value="m">m</option><option value="in">in</option></select></label>
+<button id="cad-measure" type="button" aria-pressed="false" data-i18n="measure">两点测量</button>
+<label><input id="cad-snap" type="checkbox" checked><span data-i18n="snap">顶点吸附</span></label>
+<button id="cad-clear" type="button" data-i18n="clear">清除测量</button>
+<label><span data-i18n="units">显示单位</span> <select id="cad-unit" data-i18n-aria="units"><option value="mm">mm</option><option value="cm">cm</option><option value="in">in</option></select></label>
+<label><span data-i18n="stlUnits">STL 原始单位</span> <select id="cad-stl-unit" data-i18n-aria="stlUnits"><option value="mm">mm</option><option value="cm">cm</option><option value="m">m</option><option value="in">in</option></select></label>
 </div>
-<div id="cad-stage"><span class="sr-only">三维模型视图，支持旋转、缩放、零件选择和两点尺寸测量。</span></div>
-<footer id="cad-details" aria-label="模型与测量说明">
+<div id="cad-stage"><span class="sr-only" data-i18n="stageDescription">三维模型视图，支持旋转、缩放、零件选择和两点尺寸测量。</span></div>
+<footer id="cad-details" aria-label="模型与测量说明" data-i18n-aria="detailsAria">
 <div class="cad-meta-row"><span id="cad-file-name">选择 STEP / STL 文件</span><span id="cad-part-detail" aria-live="polite"></span><span id="cad-dims"></span></div>
 <div id="cad-measure-row">
 <div id="cad-measure-result" aria-live="polite">开启“两点测量”后，在模型上选择两个点。</div>
-<span id="cad-caption">拖动旋转 · 滚轮缩放 · 右键拖动平移</span>
+<span id="cad-caption" data-i18n="gestures">拖动旋转 · 滚轮缩放 · 右键拖动平移</span>
 </div>
 <div id="cad-note">STEP 按毫米转换；STL 无内置单位。测量基于显示网格，适合结构检查。</div>
 <div id="cad-error" role="alert"></div>

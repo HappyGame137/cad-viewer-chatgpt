@@ -1,11 +1,11 @@
-# CAD Viewer 0.1.3 — public beta
+# CAD Viewer 0.2.0 — bilingual public beta
 
-Turning measurement off previously left point spheres and the distance line visible. It now clears both; turning measurement on starts with an empty point selection. Markers are also hidden when their part is isolated out or their position is clipped away.
+The viewer now supports English and Simplified Chinese. Choose 中文 / English in the top-right corner. It initially follows the browser language (Chinese for zh variants, English otherwise) and remembers a manual choice when the host permits local storage. Switching languages updates controls, accessible labels, model statistics, dimensions, measurement prompts and results, and common errors while preserving the current view, section settings, selected parts and measurement points. CAD filenames and part names are preserved. English installation and measurement documentation is included in README.en.md.
 
-File information, dimensions and interaction hints now share compact footer rows below the canvas. Top controls use smaller text and spacing. The 3D canvas fills the remaining height. At the verified 887 × 764 desktop viewport, canvas height increased from 458 to 625 pixels without page overflow.
+This release also includes the compact layout and measurement cleanup from 0.1.3: model information and hints share footer rows, and turning measurement off clears point spheres and lines. Clipped or hidden endpoints are hidden with their parts.
 
-Validation: eight automated tests pass. Manual in-app checks verified 20.00 mm measurement, hiding a clipped endpoint, clearing spheres and lines on cancellation, and starting a fresh measurement. A native plugin demo tool call also succeeded; native file-entry UI rendering remains a separate verification item.
+Validation: eleven automated tests cover CAD conversion, units, measurements, MCP protocol and localization. Manual browser checks cover a 20.00 mm measurement across language changes, display units, retained section settings, localized errors, language persistence and both compact layouts. Native MCP demo calls have succeeded; native file-entry UI rendering remains a separate verification item.
 
-This release changes the plugin UI and includes only generic sample models. User project drawings and assembly screenshots are not included. Third-party libraries are unchanged from 0.1.0; the accompanying source archive covers the same pinned library revisions.
+The package contains only generic sample models and screenshots. Third-party libraries are unchanged from 0.1.0; the source archive covers the same pinned revisions. Language preference is the only UI value saved to local storage.
 
 Measurements remain display-mesh approximations. Section views still use open clipping surfaces without cap filling. This is a community beta, not an approved OpenAI directory listing.

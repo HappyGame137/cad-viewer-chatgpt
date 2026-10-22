@@ -1,6 +1,8 @@
 # CAD Viewer for ChatGPT desktop
 
-在 ChatGPT 桌面应用中查看 STEP / STL、拆分装配并测量尺寸。早期测试版 0.1.3。
+在 ChatGPT 桌面应用中查看 STEP / STL、拆分装配并测量尺寸。早期测试版 0.2.0。
+
+[English documentation](README.en.md) · 简体中文
 
 Local STEP/STL viewing and approximate mesh measurement for ChatGPT desktop. Requires Node.js 22+ on PATH. Install the repository as a local plugin marketplace, restart the app, and use a new local conversation. See the commands below. This community beta is not an OpenAI-approved directory listing.
 
@@ -12,6 +14,7 @@ Local STEP/STL viewing and approximate mesh measurement for ChatGPT desktop. Req
 - 旋转、缩放、平移、单零件查看、装配拆分、开放式剖切。
 - 两点测量、最近网格顶点吸附、XYZ 差值与轴向整体外形尺寸。
 - mm / cm / in 显示，STL 原始单位可指定为 mm / cm / m / in。
+- 中文 / English 即时切换，首次按浏览器语言选择，记住手动选择。切换时保留视角、剖切和测量，文件名与零件原名保持不变。
 - 标准 MCP Apps 界面与 ChatGPT 文件查看入口；提供普通浏览器预览作为兼容方案。
 
 ## 安装
@@ -47,6 +50,8 @@ node dist/server.mjs --preview --model /absolute/path/to/model.step
 ```
 
 打开输出的 `http://127.0.0.1:3941`。省略 `--model` 可查看通用演示。用 `--port` 指定其他空闲端口。
+
+界面右上角可选择“中文”或“English”。中文浏览器默认显示中文，其他语言默认显示英文。宿主允许本地存储时，手动选择会在后续打开时保留。
 
 ## 尺寸测量
 

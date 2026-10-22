@@ -1,7 +1,7 @@
 import {zipSync} from 'fflate';
 import {mkdir,readFile,writeFile,readdir,stat} from 'node:fs/promises';
 import {createHash} from 'node:crypto';
-const roots=['plugin.json','mcp.json','README.md','PRIVACY.md','RELEASE_NOTES.md','LICENSE','THIRD_PARTY_NOTICES.txt','package.json','pnpm-lock.yaml','pnpm-workspace.yaml','.gitignore','.agents','skills','assets','examples','dist','server','web','scripts','test'];
+const roots=['plugin.json','mcp.json','README.md','README.en.md','PRIVACY.md','RELEASE_NOTES.md','LICENSE','THIRD_PARTY_NOTICES.txt','package.json','pnpm-lock.yaml','pnpm-workspace.yaml','.gitignore','.agents','skills','assets','examples','dist','server','web','scripts','test'];
 const files={};
 const {version}=JSON.parse(await readFile('plugin.json','utf8'));
 async function add(path){const s=await stat(path);if(s.isDirectory()){for(const item of await readdir(path))await add(path+'/'+item);}else files[path.replaceAll('\\','/')]=new Uint8Array(await readFile(path));}
