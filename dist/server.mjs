@@ -37602,14 +37602,14 @@ function summary(m2) {
 }
 
 // server/index.mjs
-var UI = "ui://cad-viewer/v1/viewer.html";
+var UI = "ui://cad-viewer/v0.1.2/viewer.html";
 var html = await readFile2(new URL("./viewer.html", import.meta.url), "utf8");
 var readonly2 = { readOnlyHint: true, destructiveHint: false, idempotentHint: true, openWorldHint: false };
 var modelReply = (model) => ({ content: [{ type: "text", text: JSON.stringify(summary(model)) }], structuredContent: summary(model), _meta: { model } });
 var errorReply = (e) => ({ isError: true, content: [{ type: "text", text: e.message }] });
 var options = { tolerance: external_exports.number().min(0.01).max(2).default(0.05), stlUnits: external_exports.enum(["mm", "cm", "m", "in"]).default("mm") };
 function createCadServer() {
-  const server = new McpServer({ name: "cad-viewer", version: "0.1.0" });
+  const server = new McpServer({ name: "cad-viewer", version: "0.1.2" });
   N3(server, "CAD viewer", UI, {}, async () => ({ contents: [{ uri: UI, mimeType: p, text: html, _meta: { ui: { prefersBorder: true, csp: { connectDomains: [], resourceDomains: [] } } } }] }));
   K3(server, "open_cad", {
     title: "Open CAD model",

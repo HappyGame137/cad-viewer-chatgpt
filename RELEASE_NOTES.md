@@ -1,15 +1,11 @@
-# CAD Viewer 0.1.0 — public beta
+# CAD Viewer 0.1.2 — public beta
 
-Local STEP/STL viewing and approximate mesh measurement for ChatGPT desktop.
+Turning measurement off previously left point spheres and the distance line visible. It now clears both; turning measurement on starts with an empty point selection. Markers are also hidden when their part is isolated out or their position is clipped away.
 
-- Orbit, zoom, pan, select a part, explode assemblies and clip the view.
-- Two-point measurement with optional mesh-vertex snapping, XYZ differences, and overall / selected-part bounding dimensions.
-- Explicit STL source units and mm / cm / in display.
-- Local MCP server, standard MCP Apps UI, and file entrypoint declarations.
-- Bundled runtime dependencies and generic sample files; Node.js 22+ on PATH is required.
+Bottom descriptions now use compact spacing and sit near the window bottom. The 3D canvas fills the remaining height. At the verified 887 × 764 desktop viewport, canvas height increased from 458 to 546 pixels without page overflow.
 
-Validation: eight automated tests cover binary / ASCII STL, units, Unicode names, large-coordinate precision, MCP tool calls, STEP assemblies and known dimensions. Manual in-app browser checks include loading the project assembly, 20.00 mm vertex-to-vertex measurement, inch conversion, exploded view, clipping and part isolation. Native ChatGPT MCP Apps file-entry rendering still requires verification in a restarted local conversation.
+Validation: eight automated tests pass. Manual in-app checks verified 20.00 mm measurement, hiding a clipped endpoint, clearing spheres and lines on cancellation, and starting a fresh measurement. A native plugin demo tool call also succeeded; native file-entry UI rendering remains a separate verification item.
 
-Measurements are based on display triangles. This release does not provide exact B-rep metrology, automatic hole diameter, radius, angle or minimum-clearance inspection.
+This release changes the plugin UI and includes only generic sample models. User project drawings and assembly screenshots are not included. Third-party libraries are unchanged from 0.1.0; the accompanying source archive covers the same pinned library revisions.
 
-Install from this release or the repository marketplace. This is a community beta, not an approved OpenAI directory listing. Local MCP submissions to the official directory currently require approved-partner access.
+Measurements remain display-mesh approximations. Section views still use open clipping surfaces without cap filling. This is a community beta, not an approved OpenAI directory listing.

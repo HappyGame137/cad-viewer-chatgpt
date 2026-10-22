@@ -72,10 +72,14 @@ function updateScene(){
 }
 function updateAnnotations(){
   dispose(annotations);
-  const displayed=state.points.map(p=>p.model.clone().sub(state.center).add(state.meshes[p.partId].position));
+  if(!state.measureMode){updateMeasurementText();return;}
+  const displayed=state.points.map(p=>{
+    const mesh=state.meshes[p.partId],point=p.model.clone().sub(state.center).add(mesh.position);
+    return {point,visible:mesh.visible&&(!$('section').checked||plane.distanceToPoint(point)>=-1e-6)};
+  });
   const c=getComputedStyle(root).getPropertyValue('--accent').trim();const material=new THREE.MeshBasicMaterial({color:new THREE.Color(c.startsWith('#')?c:0xe5b24c),depthTest:false});
-  displayed.forEach((point,i)=>{const sphere=new THREE.Mesh(new THREE.SphereGeometry(state.radius*.011,12,8),material.clone());sphere.position.copy(point);sphere.renderOrder=10;annotations.add(sphere);});material.dispose();
-  if(displayed.length===2){const line=new THREE.Line(new THREE.BufferGeometry().setFromPoints(displayed),new THREE.LineBasicMaterial({color:0xe5b24c,depthTest:false}));line.renderOrder=11;annotations.add(line);}
+  displayed.filter(p=>p.visible).forEach(({point})=>{const sphere=new THREE.Mesh(new THREE.SphereGeometry(state.radius*.011,12,8),material.clone());sphere.position.copy(point);sphere.renderOrder=10;annotations.add(sphere);});material.dispose();
+  if(displayed.length===2&&displayed.every(p=>p.visible)){const line=new THREE.Line(new THREE.BufferGeometry().setFromPoints(displayed.map(p=>p.point)),new THREE.LineBasicMaterial({color:0xe5b24c,depthTest:false}));line.renderOrder=11;annotations.add(line);}
   updateMeasurementText();
 }
 function updateMeasurementText(){
@@ -104,7 +108,7 @@ renderer.domElement.addEventListener('pointerdown',e=>{if(e.button===0)down={x:e
 renderer.domElement.addEventListener('pointerup',e=>{if(down&&e.pointerId===down.id&&Math.hypot(e.clientX-down.x,e.clientY-down.y)<4)selectAt(e);down=null;});
 renderer.domElement.addEventListener('pointercancel',()=>down=null);
 $('fit').onclick=fit;$('clear').onclick=clearMeasurement;
-$('measure').onclick=()=>{state.measureMode=!state.measureMode;$('measure').setAttribute('aria-pressed',String(state.measureMode));updateMeasurementText();};
+$('measure').onclick=()=>{state.measureMode=!state.measureMode;$('measure').setAttribute('aria-pressed',String(state.measureMode));if(state.measureMode)updateMeasurementText();else clearMeasurement();};
 $('explode').oninput=updateScene;$('section-pos').oninput=updateScene;
 $('section').onchange=()=>{$('section-pos').hidden=!$('section').checked;updateScene();};
 $('part').onchange=()=>{updateDims();updateScene();fit();};
@@ -132,7 +136,7 @@ $('demo').onclick=()=>call('cad_demo',{}).catch(showError);
 async function start(){
   resize();
   if(window.parent!==window){
-    const app=new App({name:'cad-viewer-ui',version:'0.1.0'},{},{autoResize:true});state.app=app;
+    const app=new App({name:'cad-viewer-ui',version:'0.1.2'},{},{autoResize:true});state.app=app;
     const ext=new OpenAIExtensions(app);state.extensions=ext;
     app.ontoolresult=params=>{if(params._meta?.model)loadModel(params._meta.model);else if(params.isError)showError(params.content?.find(c=>c.type==='text')?.text || '无法读取模型');};
     app.ontoolinput=async({arguments:args})=>{

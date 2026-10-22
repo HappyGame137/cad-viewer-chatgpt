@@ -1,6 +1,6 @@
 {
   "name": "cad-viewer-plugin",
-  "version": "0.1.0",
+  "version": "0.1.2",
   "private": true,
   "type": "module",
   "description": "A local CAD viewer and mesh measurement plugin for ChatGPT desktop",

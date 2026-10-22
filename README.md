@@ -1,6 +1,6 @@
 # CAD Viewer for ChatGPT desktop
 
-在 ChatGPT 桌面应用中查看 STEP / STL、拆分装配并测量尺寸。早期测试版 0.1.0。
+在 ChatGPT 桌面应用中查看 STEP / STL、拆分装配并测量尺寸。早期测试版 0.1.2。
 
 Local STEP/STL viewing and approximate mesh measurement for ChatGPT desktop. Requires Node.js 22+ on PATH. Install the repository as a local plugin marketplace, restart the app, and use a new local conversation. See the commands below. This community beta is not an OpenAI-approved directory listing.
 
@@ -51,6 +51,8 @@ node dist/server.mjs --preview --model /absolute/path/to/model.step
 ## 尺寸测量
 
 开启“两点测量”，依次点击两个点，读出距离和 XYZ 差值。默认吸附当前命中三角面的最近顶点；关闭吸附可拾取三角面上的点。再次点选将开始新的测量。拆分显示中的测量使用零件的原始装配坐标。
+
+关闭“两点测量”会清除测量点和测量线；重新开启从第一个点开始。被剖切或隐藏的零件上的标记随之隐藏。底部说明采用紧凑布局，三维画图区自动占用剩余窗口高度。
 
 STEP 按毫米导入，默认显示网格偏差参数 0.05 mm。该参数不是测量误差保证。点到点距离取自三角网格，未实现精确 B-rep 测量、自动孔径、半径、角度、最小间隙或壁厚检验。整体尺寸是原始坐标系的轴对齐外包框，不能当作任意方向的最小包络尺寸。
 
