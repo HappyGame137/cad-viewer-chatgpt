@@ -20,6 +20,15 @@ Local STEP/STL viewing and approximate mesh measurement for ChatGPT desktop. Req
 
 下载发布包并解压，或克隆此仓库。发布包及仓库中的 `dist/` 已包含运行所需代码，无须先安装开发依赖。
 
+直接从 GitHub 添加来源：
+
+```text
+codex plugin marketplace add HappyGame137/cad-viewer-chatgpt
+codex plugin add cad-viewer@cad-viewer-community
+```
+
+下载解压后也可使用本地目录：
+
 ```text
 codex plugin marketplace add /absolute/path/to/cad-viewer-chatgpt
 codex plugin add cad-viewer@cad-viewer-community
